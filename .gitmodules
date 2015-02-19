@@ -4,3 +4,6 @@
 [submodule "tools"]
 	path = tools
 	url = https://github.com/macmade/XEOS-tools.git
+[submodule "source/lib"]
+	path = source/lib
+	url = https://github.com/macmade/XEOS-lib.git
