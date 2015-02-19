@@ -1,3 +1,6 @@
 [submodule "toolchain"]
 	path = toolchain
 	url = https://github.com/macmade/XEOS-toolchain.git
+[submodule "tools"]
+	path = tools
+	url = https://github.com/macmade/XEOS-tools.git
