@@ -7,3 +7,6 @@
 [submodule "source/lib"]
 	path = source/lib
 	url = https://github.com/macmade/XEOS-lib.git
+[submodule "source/core"]
+	path = source/core
+	url = https://github.com/macmade/XEOS-core.git
