@@ -72,8 +72,11 @@ all:
 	@cd lib && $(MAKE)
 	$(call PRINT,$(COLOR_CYAN)Building the XEOS core files$(COLOR_NONE))
 	@cd core && $(MAKE)
+	$(call PRINT,$(COLOR_CYAN)Building the XEOS modules$(COLOR_NONE))
+	@cd modules && $(MAKE)
 	
 clean:
 	
 	@cd lib && $(MAKE) clean
 	@cd core && $(MAKE) clean
+	@cd modules && $(MAKE) clean
