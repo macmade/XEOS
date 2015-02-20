@@ -4,7 +4,7 @@ script: make
 before_install:
   - git submodule update --init --recursive
 install:
-  - wget https://s3.amazonaws.com/xs-labs/xeos/xeos-build.tar.bz2
-  - tar -xjf xeos-build.tar.bz2
-  - sudo mv xeos-build /usr/local/
-  - rm xeos-build.tar.bz2
+  - wget https://s3.amazonaws.com/xs-labs/xeos/xeos-toolchain.tar.bz2
+  - tar -xjf xeos-toolchain.tar.bz2
+  - sudo mv xeos-toolchain /usr/local/
+  - rm xeos-toolchain.tar.bz2
