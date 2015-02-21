@@ -68,6 +68,8 @@ FILES   :=
 
 all:
 	
+	$(call PRINT,$(COLOR_CYAN)Building the XEOS bootloaders$(COLOR_NONE))
+	@cd boot && $(MAKE)
 	$(call PRINT,$(COLOR_CYAN)Building the XEOS libraries$(COLOR_NONE))
 	@cd lib && $(MAKE)
 	$(call PRINT,$(COLOR_CYAN)Building the XEOS core files$(COLOR_NONE))
@@ -77,6 +79,7 @@ all:
 	
 clean:
 	
+	@cd boot && $(MAKE) clean
 	@cd lib && $(MAKE) clean
 	@cd core && $(MAKE) clean
 	@cd modules && $(MAKE) clean

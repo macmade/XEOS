@@ -16,3 +16,6 @@
 [submodule "source/modules"]
 	path = source/modules
 	url = https://github.com/macmade/XEOS-modules.git
+[submodule "source/boot"]
+	path = source/boot
+	url = https://github.com/macmade/XEOS-boot.git
