@@ -62,23 +62,22 @@
 include make/Config.mk
 include make/Targets.mk
 
+.NOTPARALLEL:
+
 PROMPT  := XEOS
 DEPS    := 
 FILES   := 
+TARGETS := tools source
 
-all:
+all: build-sub
 	
-	$(call PRINT,$(COLOR_CYAN)Building the XEOS tools$(COLOR_NONE))
-	@cd tools && $(MAKE)
-	$(call PRINT,$(COLOR_CYAN)Building the XEOS source$(COLOR_NONE))
-	@cd source && $(MAKE)
+	@:
+
+clean: clean-sub
+	
+	@:
 	
 toolchain:
 	
 	$(call PRINT,$(COLOR_CYAN)Building the XEOS compiler toolchain$(COLOR_NONE))
 	@cd toolchain && $(MAKE)
-	
-clean:
-	
-	@cd tools && $(MAKE) clean
-	@cd source && $(MAKE) clean

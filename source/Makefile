@@ -62,24 +62,17 @@
 include ../make/Config.mk
 include ../make/Targets.mk
 
+.NOTPARALLEL:
+
 PROMPT  := XEOS SOURCE
 DEPS    := 
 FILES   := 
+TARGETS := boot lib core modules
 
-all:
+all: build-sub
 	
-	$(call PRINT,$(COLOR_CYAN)Building the XEOS bootloaders$(COLOR_NONE))
-	@cd boot && $(MAKE)
-	$(call PRINT,$(COLOR_CYAN)Building the XEOS libraries$(COLOR_NONE))
-	@cd lib && $(MAKE)
-	$(call PRINT,$(COLOR_CYAN)Building the XEOS core files$(COLOR_NONE))
-	@cd core && $(MAKE)
-	$(call PRINT,$(COLOR_CYAN)Building the XEOS modules$(COLOR_NONE))
-	@cd modules && $(MAKE)
+	@:
+
+clean: clean-sub
 	
-clean:
-	
-	@cd boot && $(MAKE) clean
-	@cd lib && $(MAKE) clean
-	@cd core && $(MAKE) clean
-	@cd modules && $(MAKE) clean
+	@:
