@@ -76,3 +76,7 @@ all: build-sub
 clean: clean-sub
 	
 	@:
+
+distclean: distclean-sub
+	
+	@:
