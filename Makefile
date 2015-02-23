@@ -73,11 +73,11 @@ all: build-sub
 	
 	@:
 
-clean: clean-sub
+clean: clean-sub obj-clean
 	
 	@:
 
-distclean: distclean-sub
+distclean: distclean-sub deps-clean
 	
 	@:
 	
