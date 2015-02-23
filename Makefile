@@ -69,7 +69,7 @@ DEPS    :=
 FILES   := 
 TARGETS := tools source
 
-all: build-sub
+all: build-sub kernel
 	
 	@:
 
@@ -85,3 +85,21 @@ toolchain:
 	
 	$(call PRINT,$(COLOR_CYAN)Building the XEOS compiler toolchain$(COLOR_NONE))
 	@cd toolchain && $(MAKE)
+
+
+kernel: _EXEC = $(foreach _A,$(ARCHS),$(patsubst %,$(DIR_BUILD)%/xeos$(EXT_EXEC),$(_A)))
+kernel: $$(_EXEC)
+	
+	@:
+
+$(DIR_BUILD)%$(EXT_EXEC): _LIBS       = c99 posix pthread iconv system blocks dispatch objc elf
+$(DIR_BUILD)%$(EXT_EXEC): _CORE       = acpi xeos
+$(DIR_BUILD)%$(EXT_EXEC): _ARCH       = $(firstword $(subst /, ,$*))
+$(DIR_BUILD)%$(EXT_EXEC): _CORE_OBJ   = $(foreach _C,$(_CORE),$(patsubst %,source/core/%/build/$(_ARCH)$(EXT_OBJ),$(_C)))
+$(DIR_BUILD)%$(EXT_EXEC): _LD         = $(LD_$(_ARCH))
+$(DIR_BUILD)%$(EXT_EXEC): _FLAGS      = -T source/core/linker.ld $(ARGS_LD_$(_ARCH))
+$(DIR_BUILD)%$(EXT_EXEC): _FLAGS_LIBS = -Lsource/lib/build/$(_ARCH) -static $(foreach _L,$(_LIBS),$(addprefix -l,$(_L)))
+$(DIR_BUILD)%$(EXT_EXEC): $$(shell mkdir -p $$(DIR_BUILD)$$(_ARCH)) FORCE
+	
+	$(call PRINT_FILE,$(_ARCH),$(COLOR_CYAN)Linking the kernel file$(COLOR_NONE),$(COLOR_YELLOW)$(notdir $@)$(COLOR_NONE))
+	@$(_LD) $(_FLAGS) -o $@ $(_CORE_OBJ) $(_FLAGS_LIBS)
