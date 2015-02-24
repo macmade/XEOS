@@ -57,8 +57,6 @@
 # OF THE POSSIBILITY OF SUCH DAMAGE.
 #-------------------------------------------------------------------------------
 
-# $Id$
-
 include make/Config.mk
 include make/Targets.mk
 
