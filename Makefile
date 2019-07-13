@@ -65,6 +65,8 @@
 include make/Config.mk
 include make/Targets.mk
 
+.PHONY: toolchain
+
 .NOTPARALLEL:
 
 PROMPT  := XEOS
