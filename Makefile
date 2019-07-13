@@ -74,7 +74,7 @@ DEPS    :=
 FILES   := 
 TARGETS := tools source
 
-all: build-sub kernel
+all: build-sub kernel floppy
 	
 	@:
 
@@ -108,3 +108,47 @@ $(DIR_BUILD)%$(EXT_EXEC): $$(shell mkdir -p $$(DIR_BUILD)$$(_ARCH)) FORCE
 	
 	$(call PRINT_FILE,$(_ARCH),$(COLOR_CYAN)Linking the kernel file$(COLOR_NONE),$(COLOR_YELLOW)$(notdir $@)$(COLOR_NONE))
 	@$(_LD) $(_FLAGS) -o $@ $(_CORE_OBJ) $(_FLAGS_LIBS)
+
+floppy: floppy_$(BUILD_HOST) FORCE
+	
+	@:
+
+floppy_unknown:
+	
+	$(call PRINT,$(COLOR_RED)Boot floppy generation not implemented for the current host: $(COLOR_NONE)$(COLOR_YELLOW)$(BUILD_HOST)$(COLOR_NONE))
+
+floppy_mac_dmg: _FLOPPY_DMG := $(DIR_BUILD)tmp/boot.dmg
+floppy_mac_dmg: _FLOPPY_IMG := $(DIR_BUILD)boot.img
+floppy_mac_dmg: _MBR        := source/boot/bios/build/mbr.bin
+floppy_mac_dmg: $$(shell mkdir -p $$(DIR_BUILD)tmp) FORCE
+	
+	$(call PRINT,$(COLOR_CYAN)Creating a fresh floppy image \(UDIF FAT12\): $(COLOR_NONE)$(COLOR_YELLOW)$(_FLOPPY_DMG)$(COLOR_NONE))
+	@hdiutil create -ov -type UDIF -sectors 2880 -fs "MS-DOS FAT12" -volname "XEOS" $(_FLOPPY_DMG) > /dev/null
+	
+	$(call PRINT,$(COLOR_CYAN)Installing the XEOS Master Boot Record \(MBR\): $(COLOR_NONE)$(COLOR_YELLOW)$(_MBR)$(COLOR_NONE))
+	@dd conv=notrunc if=$(_MBR) of=$(_FLOPPY_DMG) > /dev/null 2>&1
+
+floppy_mac: floppy_mac_dmg
+floppy_mac: _FLOPPY_DMG    := $(DIR_BUILD)tmp/boot.dmg
+floppy_mac: _FLOPPY_IMG    := $(DIR_BUILD)boot.img
+floppy_mac: _FLOPPY_DEVICE  = $(shell hdid -nobrowse -nomount $(_FLOPPY_DMG))
+floppy_mac: $$(shell mkdir -p $$(DIR_BUILD)mount) FORCE
+	
+	$(call PRINT,$(COLOR_CYAN)Mounting the boot floppy image: $(COLOR_NONE)$(COLOR_YELLOW)$(_FLOPPY_DEVICE)$(COLOR_NONE))
+	@mount -t msdos $(_FLOPPY_DEVICE) $(DIR_BUILD)mount
+	
+	$(call PRINT,$(COLOR_CYAN)Copying the second stage bootloader to the boot floppy$(COLOR_NONE))
+	@cp source/boot/bios/build/boot.bin $(DIR_BUILD)mount/BOOT.BIN
+	
+	$(call PRINT,$(COLOR_CYAN)Copying the XEOS kernel to the boot floppy$(COLOR_NONE))
+	@cp build/i386/xeos.elf $(DIR_BUILD)mount/XEOS32.ELF
+	@cp build/x86_64/xeos.elf $(DIR_BUILD)mount/XEOS64.ELF
+	
+	$(call PRINT,$(COLOR_CYAN)Unmounting the boot floppy image: $(COLOR_NONE)$(COLOR_YELLOW)$(_FLOPPY_DEVICE)$(COLOR_NONE))
+	@umount $(_FLOPPY_DEVICE) > /dev/null
+	
+	$(call PRINT,$(COLOR_CYAN)Detaching the boot floppy image: $(COLOR_NONE)$(COLOR_YELLOW)$(_FLOPPY_DEVICE)$(COLOR_NONE))
+	@hdiutil detach $(_FLOPPY_DEVICE) > /dev/null
+	
+	$(call PRINT,$(COLOR_CYAN)Converting the floppy image: $(COLOR_NONE)$(COLOR_YELLOW)$(_FLOPPY_IMG)$(COLOR_NONE))
+	@hdiutil convert -ov $(_FLOPPY_DMG) -format Rdxx -o $(_FLOPPY_IMG) > /dev/null
