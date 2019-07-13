@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <FileRef
+      location = "group:XEOS.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:source/boot/bios/XEOS-boot-bios.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:source/boot/uefi/XEOS-boot-uefi.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:source/core/acpi/XEOS-core-acpi.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:source/core/xeos/XEOS-core-xeos.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:source/lib/libblocks/XEOS-lib-blocks.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:source/lib/libc11/XEOS-lib-c11.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:source/lib/libc99/XEOS-lib-c99.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:source/lib/libdispatch/XEOS-lib-dispatch.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:source/lib/libelf/XEOS-lib-elf.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:source/lib/libiconv/XEOS-lib-iconv.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:source/lib/libobjc/XEOS-lib-objc.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:source/lib/libposix/XEOS-lib-posix.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:source/lib/libpthread/XEOS-lib-pthread.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:source/lib/libsystem/XEOS-lib-system.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:tools/localedef/XEOS-tools-localedef.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:tools/mkinitrd/XEOS-tools-mkinitrd.xcodeproj">
+   </FileRef>
+</Workspace>
