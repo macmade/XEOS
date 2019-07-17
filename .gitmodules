@@ -19,3 +19,6 @@
 [submodule "source/boot"]
 	path = source/boot
 	url = https://github.com/macmade/XEOS-boot.git
+[submodule "vbox"]
+	path = vbox
+	url = https://github.com/macmade/XEOS-vbox.git
