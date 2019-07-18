@@ -117,12 +117,15 @@ $(DIR_BUILD)%$(EXT_EXEC): _CORE       = acpi xeos
 $(DIR_BUILD)%$(EXT_EXEC): _ARCH       = $(firstword $(subst /, ,$*))
 $(DIR_BUILD)%$(EXT_EXEC): _CORE_OBJ   = $(foreach _C,$(_CORE),$(patsubst %,source/core/%/build/$(_ARCH)$(EXT_OBJ),$(_C)))
 $(DIR_BUILD)%$(EXT_EXEC): _LD         = $(LD_$(_ARCH))
+$(DIR_BUILD)%$(EXT_EXEC): _STRIP      = $(STRIP_$(_ARCH))
 $(DIR_BUILD)%$(EXT_EXEC): _FLAGS      = -T source/core/linker.ld $(ARGS_LD_$(_ARCH))
 $(DIR_BUILD)%$(EXT_EXEC): _FLAGS_LIBS = -Lsource/lib/build/$(_ARCH) -static $(foreach _L,$(_LIBS),$(addprefix -l,$(_L)))
 $(DIR_BUILD)%$(EXT_EXEC): $$(shell mkdir -p $$(DIR_BUILD)$$(_ARCH)) FORCE
 	
 	$(call PRINT_FILE,$(_ARCH),$(COLOR_CYAN)Linking the kernel file$(COLOR_NONE),$(COLOR_YELLOW)$(notdir $@)$(COLOR_NONE))
 	@$(_LD) $(_FLAGS) -o $@ $(_CORE_OBJ) $(_FLAGS_LIBS)
+	$(call PRINT_FILE,$(_ARCH),$(COLOR_CYAN)Stripping the kernel file$(COLOR_NONE),$(COLOR_YELLOW)$(notdir $@)$(COLOR_NONE))
+	@$(_STRIP) -s $@
 
 floppy: floppy_$(BUILD_HOST) FORCE
 	
