@@ -95,17 +95,13 @@ test: test-64
 	
 	@:
 	
-test-64: all
+test-64:
 	
-	@VBoxManage unregistervm XEOS-64 &> /dev/null || true
-	@VBoxManage registervm $(CURDIR)/vbox/XEOS-64/XEOS-64.vbox
-	@VBoxManage startvm XEOS-64
+	@vbox-monitor XEOS-64 $(CURDIR)/vbox/XEOS-64/XEOS-64.vbox
+
+debug:
 	
-test-32: all
-	
-	@VBoxManage unregistervm XEOS-32 &> /dev/null || true
-	@VBoxManage registervm $(CURDIR)/vbox/XEOS-32/XEOS-32.vbox
-	@VBoxManage startvm XEOS-32
+	@unicorn-bios $(DIR_BUILD)boot.img --break-iret
 
 kernel: _EXEC = $(foreach _A,$(ARCHS),$(patsubst %,$(DIR_BUILD)%/xeos$(EXT_EXEC),$(_A)))
 kernel: $$(_EXEC)
